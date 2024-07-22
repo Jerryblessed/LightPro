@@ -6,8 +6,14 @@ import Video from "../app/video";
 const ThetaPass = require('@thetalabs/theta-pass');
 const thetajs = require('@thetalabs/theta-js');
 
-class App extends React.Component {
-    constructor(props) {
+interface AppProps {}
+interface AppState {
+    walletAddress: string | null;
+    isOwner: boolean;
+}
+
+class App extends React.Component<AppProps, AppState> {
+    constructor(props: AppProps) {
         super(props);
 
         this.state = {
@@ -24,7 +30,7 @@ class App extends React.Component {
         this.finishViaRedirect();
     }
 
-    isOwnerOfNFT = async (nftContractAddress, walletAddress) => {
+    isOwnerOfNFT = async (nftContractAddress: string, walletAddress: string | null) => {
         try {
             if (!walletAddress) {
                 console.error('walletAddress is undefined or null');
@@ -47,11 +53,11 @@ class App extends React.Component {
             console.error('No wallet address found in state');
             return;
         }
-        const isOwner = await this.isOwnerOfNFT(process.env.NEXT_PUBLIC_THETA_ZILLA_CONTRACT_ADDRESS, walletAddress);
+        const isOwner = await this.isOwnerOfNFT(process.env.NEXT_PUBLIC_THETA_ZILLA_CONTRACT_ADDRESS!, walletAddress);
         this.setState({ isOwner });
     };
 
-    handleThetaPassResponse = (response) => {
+    handleThetaPassResponse = (response: any) => {
         try {
             if (response) {
                 const { result } = response;
@@ -136,7 +142,6 @@ class App extends React.Component {
 
                 <div style={{ borderTop: '1px solid var(--primary-color)', width: '100%' }}></div>
 
-                {/* Conditionally render the <Video> component */}
                 {walletAddress && (
                     <Video></Video>
                 )}
