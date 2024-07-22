@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, CSSProperties } from 'react';
 
-const styles = {
+const styles: { [key: string]: CSSProperties } = {
     container: {
         display: 'flex',
         flexDirection: 'column',
