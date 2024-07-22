@@ -53,13 +53,13 @@ const styles = {
 };
 
 export default function Home() {
-    const [apiResponse, setApiResponse] = useState(null);
+    const [apiResponse, setApiResponse] = useState<any>(null);
     const [streamId, setStreamId] = useState('');
     const [serviceAccountId, setServiceAccountId] = useState('');
     const [serviceAccountSecret, setServiceAccountSecret] = useState('');
-    const [hover, setHover] = useState({});
+    const [hover, setHover] = useState<{ [key: string]: boolean }>({});
 
-    const callApi = async (endpoint, method = 'POST', body = null) => {
+    const callApi = async (endpoint: string, method: string = 'POST', body: any = null): Promise<any> => {
         const response = await fetch(endpoint, {
             method,
             headers: {
