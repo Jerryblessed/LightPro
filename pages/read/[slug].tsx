@@ -1,9 +1,5 @@
-// pages/index.tsx
-
 import Newsletter from "@/components/Newsletter";
-import { FaChevronLeft } from "react-icons/fa";
-import { FaComments } from "react-icons/fa";
-import { FaFileAlt } from "react-icons/fa"; // Importing a transcript icon
+import { FaChevronLeft, FaComments, FaFileAlt } from "react-icons/fa";
 import Link from "next/link";
 import { useState } from "react";
 import { posts } from "@/data/posts";
@@ -35,11 +31,6 @@ export async function getStaticPaths() {
 }
 
 function Read({ post }: { post: string }) {
-  if (!post) {
-    return <p>Post not found</p>;
-  }
-
-  let singlePost: Posts = JSON.parse(post);
   const [showChatBar, setShowChatBar] = useState(false);
   const [showTranscript, setShowTranscript] = useState(false);
 
@@ -50,6 +41,12 @@ function Read({ post }: { post: string }) {
   const toggleTranscript = () => {
     setShowTranscript(!showTranscript);
   };
+
+  if (!post) {
+    return <p>Post not found</p>;
+  }
+
+  let singlePost: Posts = JSON.parse(post);
 
   return (
     <>
@@ -68,7 +65,6 @@ function Read({ post }: { post: string }) {
                 >
                   View 2D Image
                 </button>
-
               </Link>
 
               <Link href={singlePost.vid_des} passHref>
@@ -79,11 +75,9 @@ function Read({ post }: { post: string }) {
                   View 3D model
                 </button>
               </Link>
-                
-                <Link className="text-xl mb-6 no-underline" href={`/tags/${singlePost.tags[0].trim().toLowerCase().replaceAll(' ', '-')}`}>
-               
+
+              <Link className="text-xl mb-6 no-underline" href={`/tags/${singlePost.tags[0].trim().toLowerCase().replaceAll(' ', '-')}`}>
                 #{singlePost.tags[0]}
-              
               </Link>
             </div>
 
