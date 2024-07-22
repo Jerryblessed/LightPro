@@ -89,8 +89,7 @@ class App extends React.Component {
 
     requestAccountsViaRedirect = async () => {
         try {
-            const redirectUrl = 'http://localhost:3000';
-            await ThetaPass.requestAccounts(redirectUrl, null, false);
+            await ThetaPass.requestAccounts(process.env.NEXT_PUBLIC_REDIRECT_URL, null, false);
         } catch (e) {
             console.error('Error requesting accounts via redirect:', e);
         }
