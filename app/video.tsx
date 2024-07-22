@@ -3,47 +3,8 @@ import { Listbox, Transition } from '@headlessui/react';
 import styles from './video.module.css';
 import React, { DragEvent, useRef, ChangeEvent } from 'react';
 import cx from 'classnames';
-import axios from "axios";
-import { ethers } from "ethers";
-const { isAddress } = ethers.utils;
-
-interface ApiKeysProps {
-    setApiKeys: (apiKeys: { key: string, secret: string }) => void;
-}
-
-const ApiKeys: React.FC<ApiKeysProps> = ({ setApiKeys }) => {
-    const [apiKey, setApiKey] = useState('');
-    const [apiSecret, setApiSecret] = useState('');
-
-    const handleSaveApiKeys = () => {
-        setApiKeys({ key: apiKey, secret: apiSecret });
-    };
-
-    return (
-        <div className={styles.centerContainer}>
-            <h3 className={styles.title}>Enter API Keys</h3>
-            <div className={styles.inputGroup}>
-                <label>API Key</label>
-                <input
-                    type="text"
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                />
-            </div>
-            <div className={styles.inputGroup}>
-                <label>API Secret</label>
-                <input
-                    type="password"
-                    value={apiSecret}
-                    onChange={(e) => setApiSecret(e.target.value)}
-                />
-            </div>
-            <button className={styles.saveButton} onClick={handleSaveApiKeys}>
-                Save
-            </button>
-        </div>
-    );
-}
+import axios from 'axios';
+import { isAddress } from '@ethersproject/address'; // Correct import for isAddress
 
 export default function Video() {
     const resolutions = [2160, 1080, 720, 360];
@@ -80,14 +41,14 @@ export default function Video() {
     const handleDrop = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         const files = event.dataTransfer.files;
-        if (files && files[0].type.slice(0, 5) == 'video') {
+        if (files && files[0].type.slice(0, 5) === 'video') {
             setVideoFile(files[0]);
         }
     };
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
-        if (files && files[0].type.slice(0, 5) == 'video') {
+        if (files && files[0].type.slice(0, 5) === 'video') {
             console.log(files[0]);
             setVideoFile(files[0]);
         }
@@ -126,15 +87,15 @@ export default function Video() {
         setCollections(newCollections);
     };
 
-    // Save function checks if upload or video URL is provided and then proceeds with all the necessary API calls
+    // Save function checks if upload or video url is provided and then proceeds with all the necessary api calls
     const handleSaveVideo = () => {
         setErrorMessage('');
         // check if necessary info is set
-        if (selectedResolutions.length == 0) {
+        if (selectedResolutions.length === 0) {
             setErrorMessage('Select Resolution for video Transcoding');
             return;
         }
-        if (videoURL == '') {
+        if (videoURL === '') {
             if (videoFile != null) {
                 uploadVideo();
             } else {
@@ -253,152 +214,192 @@ export default function Video() {
             setTranscodingId(response.data.body.videos[0].id);
             setIsUploading(false);
         } catch (error) {
-            console.error('Error transcoding video:', error);
-            setIsUploading(false);
+            setTranscodingId('');
+            const errorMessage = videoURL ? 'Invalid video URL. Please fix and then try again.' : 'Error starting Video transcoding';
+            setErrorMessage(errorMessage);
+            console.error('Error fetching transcoding Video:', error);
         }
     };
 
+    // Called after uploading and transcoding, if the user wants to upload new video -> resets the main page
+    const handleBackToNewVideo = (newValue: string) => {
+        setTranscodingId(newValue);
+        setVideoFile(null);
+        setVideoURL('');
+        setVideoDescription('');
+        setVideoName('');
+        setCollections([{ address: '', network: 'Theta Mainnet' }]);
+        setSelectedResolutions(resolutions);
+        setSelectedWorker('External Elite Edge Node');
+    };
+
+    if (apiKeys.secret === 'srvacc_5qsp988etr3giht8h9kuew9ju' || apiKeys.key === 'kuwsyq0cx2gipaggec1ba2pumzat80qj') {
+        return <ApiKeys setApiKeys={setApiKeys}></ApiKeys>;
+    }
+
+    if (transcodingId !== '') {
+        return <Transcoding apiKey={apiKeys.key} apiSecret={apiKeys.secret} id={transcodingId} name={videoName} handleBackToNewVideo={handleBackToNewVideo}></Transcoding>;
+    }
+
     return (
-        <div className={styles.pageContainer}>
-            <h1 className={styles.title}>Theta Video API</h1>
-            <div className={styles.inputContainer}>
-                <label className={styles.label}>Video URL</label>
+        <div className={styles.container}>
+            <form>
+                <label htmlFor="title">Video Title</label>
                 <input
-                    className={styles.input}
                     type="text"
-                    value={videoURL}
-                    onChange={(e) => setVideoURL(e.target.value)}
-                    placeholder="Enter video URL"
-                />
-            </div>
-            <div className={styles.fileUploadContainer} onDragOver={handleDragOver} onDrop={handleDrop}>
-                <input type="file" accept="video/*" onChange={handleFileChange} ref={fileInputRef} hidden />
-                {videoFile ? (
-                    <div className={styles.fileInfo}>
-                        <span className={styles.fileName}>{videoFile.name}</span>
-                        <button className={styles.changeButton} onClick={() => fileInputRef.current?.click()}>Change</button>
-                    </div>
-                ) : (
-                    <button className={styles.uploadButton} onClick={() => fileInputRef.current?.click()}>Drag and drop or click to upload a video</button>
-                )}
-            </div>
-            <div className={styles.inputContainer}>
-                <label className={styles.label}>Video Name</label>
-                <input
-                    className={styles.input}
-                    type="text"
+                    name="title"
+                    placeholder="Your video title"
                     value={videoName}
-                    onChange={(e) => setVideoName(e.target.value)}
-                    placeholder="Enter video name"
+                    onChange={e => setVideoName(e.target.value)}
                 />
-            </div>
-            <div className={styles.inputContainer}>
-                <label className={styles.label}>Video Description</label>
+
+                <label htmlFor="description">Video Description</label>
                 <textarea
-                    className={styles.input}
+                    name="description"
+                    rows={4}
+                    placeholder="Your video description"
                     value={videoDescription}
-                    onChange={(e) => setVideoDescription(e.target.value)}
-                    placeholder="Enter video description"
+                    onChange={e => setVideoDescription(e.target.value)}
                 />
-            </div>
-            <div className={styles.resolutionsContainer}>
-                <label className={styles.label}>Select Resolutions</label>
-                <div className={styles.resolutions}>
+
+                <label htmlFor="url">Video URL</label>
+                <input
+                    type="url"
+                    name="url"
+                    placeholder="https://example.com/video"
+                    value={videoURL}
+                    onChange={e => setVideoURL(e.target.value)}
+                />
+
+                <label>Resolutions</label>
+                <div>
                     {resolutions.map(resolution => (
-                        <button
-                            key={resolution}
-                            className={cx(styles.resolutionButton, selectedResolutions.includes(resolution) && styles.selectedResolution)}
-                            onClick={() => toggleResolution(resolution)}
-                        >
-                            {resolution}p
-                        </button>
+                        <div key={resolution}>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={selectedResolutions.includes(resolution)}
+                                    onChange={() => toggleResolution(resolution)}
+                                />
+                                {resolution}p
+                            </label>
+                        </div>
                     ))}
                 </div>
-            </div>
-            <div className={styles.inputContainer}>
-                <label className={styles.label}>Worker</label>
-                <Listbox value={selectedWorker} onChange={setSelectedWorker}>
-                    <div className={styles.workerContainer}>
-                        <Listbox.Button className={styles.workerButton}>{selectedWorker}</Listbox.Button>
-                        <Transition
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                        >
-                            <Listbox.Options className={styles.workerOptions}>
-                                {workers.map((worker, workerIdx) => (
-                                    <Listbox.Option
-                                        key={workerIdx}
-                                        className={({ active }) =>
-                                            `${active ? 'text-amber-900 bg-amber-100' : 'text-gray-900'}
-                                            cursor-default select-none relative py-2 pl-10 pr-4`
-                                        }
-                                        value={worker}
-                                    >
-                                        {({ selected, active }) => (
-                                            <>
-                                                <span
-                                                    className={`${selected ? 'font-medium' : 'font-normal'
-                                                        } block truncate`}
-                                                >
-                                                    {worker}
-                                                </span>
-                                                {selected ? (
-                                                    <span
-                                                        className={`${active ? 'text-amber-600' : 'text-amber-600'
-                                                            } absolute inset-y-0 left-0 flex items-center pl-3`}
-                                                    >
-                                                    </span>
-                                                ) : null}
-                                            </>
-                                        )}
-                                    </Listbox.Option>
-                                ))}
-                            </Listbox.Options>
-                        </Transition>
-                    </div>
-                </Listbox>
-            </div>
-            <div className={styles.collectionsContainer}>
-                <label className={styles.label}>DRM Collections</label>
+
+                <label>Worker</label>
+                <div>
+                    <Listbox value={selectedWorker} onChange={setSelectedWorker}>
+                        <div className={cx(styles.listbox)}>
+                            <Listbox.Button>{selectedWorker}</Listbox.Button>
+                            <Transition
+                                as={React.Fragment}
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <Listbox.Options className={cx(styles.options)}>
+                                    {workers.map((worker) => (
+                                        <Listbox.Option
+                                            key={worker}
+                                            className={({ active }) =>
+                                                cx(styles.option, { [styles.activeOption]: active })
+                                            }
+                                            value={worker}
+                                        >
+                                            {worker}
+                                        </Listbox.Option>
+                                    ))}
+                                </Listbox.Options>
+                            </Transition>
+                        </div>
+                    </Listbox>
+                </div>
+
+                <label>Collections</label>
                 {collections.map((collection, index) => (
-                    <div key={index} className={styles.collectionRow}>
+                    <div key={index} className={styles.collection}>
                         <input
-                            className={styles.input}
                             type="text"
-                            placeholder="Enter NFT Collection Address"
+                            placeholder="Collection Address"
                             value={collection.address}
-                            onChange={(e) => handleAddressChange(index, e.target.value)}
+                            onChange={e => handleAddressChange(index, e.target.value)}
                         />
                         <select
-                            className={styles.select}
                             value={collection.network}
-                            onChange={(e) => handleNetworkChange(index, e.target.value)}
+                            onChange={e => handleNetworkChange(index, e.target.value)}
                         >
                             {networks.map(network => (
-                                <option key={network.value} value={network.name}>{network.name}</option>
+                                <option key={network.value} value={network.name}>
+                                    {network.name}
+                                </option>
                             ))}
                         </select>
-                        {index > 0 && (
-                            <button
-                                className={styles.removeButton}
-                                onClick={() => handleRemoveCollection(index)}
-                            >
-                                Remove
-                            </button>
-                        )}
+                        <button type="button" onClick={() => handleRemoveCollection(index)}>Remove</button>
                     </div>
                 ))}
-                <button className={styles.addButton} onClick={handleAddCollection}>Add Collection</button>
-            </div>
-            <div className={styles.inputContainer}>
-                <label className={styles.label}>API Keys</label>
-                <ApiKeys setApiKeys={setApiKeys} />
-            </div>
-            {errorMessage && <div className={styles.error}>{errorMessage}</div>}
-            <button className={styles.saveButton} onClick={handleSaveVideo}>Save</button>
-            {isUploading && <div className={styles.uploading}>Uploading...</div>}
-            {transcodingId && <div className={styles.transcodingId}>Transcoding ID: {transcodingId}</div>}
+                <button type="button" onClick={handleAddCollection}>Add Collection</button>
+
+                <div
+                    className={styles.dropArea}
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                    onClick={() => fileInputRef.current?.click()}
+                >
+                    {videoFile ? videoFile.name : 'Drag and drop a video file or click to select'}
+                </div>
+                <input
+                    type="file"
+                    accept="video/*"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
+                />
+
+                <button type="button" onClick={handleSaveVideo} disabled={isUploading}>
+                    {isUploading ? 'Uploading...' : 'Save Video'}
+                </button>
+
+                {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+            </form>
+        </div>
+    );
+}
+
+function ApiKeys({ setApiKeys }: { setApiKeys: React.Dispatch<React.SetStateAction<{ key: string; secret: string; }>> }) {
+    const [key, setKey] = useState('');
+    const [secret, setSecret] = useState('');
+
+    const handleSaveKeys = () => {
+        setApiKeys({ key, secret });
+    };
+
+    return (
+        <div>
+            <h2>Enter API Keys</h2>
+            <input
+                type="text"
+                placeholder="API Key"
+                value={key}
+                onChange={e => setKey(e.target.value)}
+            />
+            <input
+                type="text"
+                placeholder="API Secret"
+                value={secret}
+                onChange={e => setSecret(e.target.value)}
+            />
+            <button onClick={handleSaveKeys}>Save API Keys</button>
+        </div>
+    );
+}
+
+function Transcoding({ apiKey, apiSecret, id, name, handleBackToNewVideo }: { apiKey: string, apiSecret: string, id: string, name: string, handleBackToNewVideo: (newValue: string) => void }) {
+    return (
+        <div>
+            <h2>Transcoding {name}</h2>
+            <p>ID: {id}</p>
+            <button onClick={() => handleBackToNewVideo('')}>Back to New Video</button>
         </div>
     );
 }
