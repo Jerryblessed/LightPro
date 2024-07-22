@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
-import styles from './video.module.css'
+import styles from './video.module.css';
 import React, { DragEvent, useRef, ChangeEvent } from 'react';
 import cx from 'classnames';
 import axios from "axios";
 import { ethers } from "ethers";
+const { isAddress } = ethers.utils;
 
 export default function Video() {
     const resolutions = [2160, 1080, 720, 360];
@@ -14,19 +15,19 @@ export default function Video() {
         { name: 'Theta Testnet', value: 365 },
         { name: 'Ethereum Mainnet', value: 1 },
         { name: 'ETH Goerli Testnet', value: 5 },
-    ]
+    ];
 
-    const [videoURL, setVideoURL] = React.useState('')
-    const [videoName, setVideoName] = React.useState('')
-    const [videoDescription, setVideoDescription] = React.useState('')
+    const [videoURL, setVideoURL] = React.useState('');
+    const [videoName, setVideoName] = React.useState('');
+    const [videoDescription, setVideoDescription] = React.useState('');
     const [selectedResolutions, setSelectedResolutions] = React.useState<number[]>([]);
     const [selectedWorker, setSelectedWorker] = React.useState<string>('External Elite Edge Node');
     const [collections, setCollections] = useState([{ address: '', network: 'Theta Mainnet' }]);
     const [apiKeys, setApiKeys] = React.useState({ key: '', secret: '' });
-    const [errorMessage, setErrorMessage] = React.useState('')
-    const [videoFile, setVideoFile] = React.useState<File | null>(null)
-    const [isUploading, setIsUploading] = React.useState(false)
-    const [transcodingId, setTranscodingId] = React.useState('')
+    const [errorMessage, setErrorMessage] = React.useState('');
+    const [videoFile, setVideoFile] = React.useState<File | null>(null);
+    const [isUploading, setIsUploading] = React.useState(false);
+    const [transcodingId, setTranscodingId] = React.useState('');
 
     const fileInputRef = useRef<HTMLInputElement>(null); // for the Drag and drop element
 
@@ -36,23 +37,23 @@ export default function Video() {
 
     const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-    }
+    };
 
     const handleDrop = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         const files = event.dataTransfer.files;
         if (files && files[0].type.slice(0, 5) == 'video') {
-            setVideoFile(files[0])
+            setVideoFile(files[0]);
         }
-    }
+    };
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
         if (files && files[0].type.slice(0, 5) == 'video') {
-            console.log(files[0])
-            setVideoFile(files[0])
+            console.log(files[0]);
+            setVideoFile(files[0]);
         }
-    }
+    };
 
     const toggleResolution = (resolution: number) => {
         if (selectedResolutions.includes(resolution)) {
@@ -87,26 +88,26 @@ export default function Video() {
         setCollections(newCollections);
     };
 
-    // Save function checks if upload or video url is provided and then proceeds with all the necessary api calls
+    // Save function checks if upload or video URL is provided and then proceeds with all the necessary API calls
     const handleSaveVideo = () => {
-        setErrorMessage('')
+        setErrorMessage('');
         // check if necessary info is set
         if (selectedResolutions.length == 0) {
-            setErrorMessage('Select Resolution for video Transcoding')
-            return
+            setErrorMessage('Select Resolution for video Transcoding');
+            return;
         }
         if (videoURL == '') {
             if (videoFile != null) {
-                uploadVideo()
+                uploadVideo();
             } else {
-                setErrorMessage('No video URL or video upload provided!')
+                setErrorMessage('No video URL or video upload provided!');
             }
         } else {
             transcodeVideo(null).catch((e) => {
-                setErrorMessage('Invalid video URL. Please fix and then try again.')
-            })
+                setErrorMessage('Invalid video URL. Please fix and then try again.');
+            });
         }
-    }
+    };
 
     const getSignedURL = async () => {
         try {
@@ -120,18 +121,18 @@ export default function Video() {
         } catch (error) {
             console.error('Error fetching signed URL:', error);
         }
-    }
+    };
 
     const uploadVideo = async () => {
         if (videoFile) {
             try {
-                setIsUploading(true)
-                const uploads = await getSignedURL()
+                setIsUploading(true);
+                const uploads = await getSignedURL();
                 const signedURL = uploads.presigned_url;
 
                 if (!signedURL) {
                     console.error('Failed to get signed URL.');
-                    setErrorMessage('Failed to get signed URL.')
+                    setErrorMessage('Failed to get signed URL.');
                     return;
                 }
 
@@ -142,11 +143,11 @@ export default function Video() {
                 });
                 transcodeVideo(uploads.id);
             } catch (error) {
-                setIsUploading(false)
+                setIsUploading(false);
                 console.error('Error uploading the file:', error);
             }
         }
-    }
+    };
 
     const createTranscodeData = (id: string | null): any => {
         const baseData = {
@@ -165,7 +166,7 @@ export default function Video() {
 
     const getDrmRules = (): any[] => {
         return collections.reduce((rules: any[], collection) => {
-            if (ethers.isAddress(collection.address) && collection.network) {
+            if (isAddress(collection.address) && collection.network) {
                 const network = networks.find(net => net.name === collection.network);
                 const chainId = network?.value;
 
@@ -224,149 +225,123 @@ export default function Video() {
     // Called after uploading and transcoding, if the user wants to upload new video -> resets the main page
     const handleBackToNewVideo = (newValue: string) => {
         setTranscodingId(newValue);
-        setVideoFile(null)
-        setVideoURL('')
-        setVideoDescription('')
-        setVideoName('')
-        setCollections([{ address: '', network: 'Theta Mainnet' }])
-        setSelectedResolutions(resolutions)
-        setSelectedWorker('External Elite Edge Node')
+        setVideoFile(null);
+        setVideoURL('');
+        setVideoDescription('');
+        setVideoName('');
+        setCollections([{ address: '', network: 'Theta Mainnet' }]);
+        setSelectedResolutions(resolutions);
+        setSelectedWorker('External Elite Edge Node');
     };
 
     if (apiKeys.secret == 'srvacc_5qsp988etr3giht8h9kuew9ju' || apiKeys.key == 'kuwsyq0cx2gipaggec1ba2pumzat80qj') {
-        return <ApiKeys setApiKeys={setApiKeys}></ApiKeys>
+        return <ApiKeys setApiKeys={setApiKeys}></ApiKeys>;
     }
 
-    if (transcodingId != '') {
-        return <Transcoding apiKey={apiKeys.key} apiSecret={apiKeys.secret} id={transcodingId} name={videoName} handleBackToNewVideo={handleBackToNewVideo}></Transcoding>
+    // shows the transcoding ID
+    if (transcodingId) {
+        return (
+            <div className={styles.centerContainer}>
+                <h3 className={styles.title}>Video transcoding successfully started!</h3>
+                <h3 className={styles.subtitle}>Your transcoding ID is:</h3>
+                <div className={styles.transcodingId}>{transcodingId}</div>
+                <div className={styles.backButton}>
+                    <button onClick={() => handleBackToNewVideo('')}>
+                        Back to upload another video
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     return (
-        <div className={styles.alignment}>
-            <h1 style={{ textDecoration: 'underline', fontSize: '30px' }}>New Upload 📹</h1>
-
-
-            <div
-                id="dragDropBox"
-                className={styles.dragDropBox}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onClick={() => window.open('https://www.thetaedgecloud.com/ai-showcase/image-to-video', '_blank')}
-            >
-                <p>Generate videos here...</p>
-            </div>
-            <p>OR</p>
-            <div
-                id="dragDropBox"
-                className={styles.dragDropBox}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onClick={() => window.open('https://www.thetaedgecloud.com/dashboard/ai/prj_5rfupsn6x4prrcuuaapn3w50x7i4/model-explorer', '_blank')}
-            >
-                <p>Get Aduio from Whisper...</p>
-            </div>
-
-            <p>OR</p>
-            <div
-                id="dragDropBox"
-                className={styles.dragDropBox}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onClick={() => window.open('https://www.thetaedgecloud.com/ai-showcase', '_blank')}
-            >
-                <p>Create images...</p>
-            </div>
-            <p>OR</p>
-
-            <div
-                id="dragDropBox"
-                className={styles.dragDropBox}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onClick={() => window.open('https://www.thetaedgecloud.com/ai-showcase/sketch-to-3d', '_blank')}
-            >
-                <p>Create 3D contents...</p>
-            </div>
-
-
-            <p>OR</p>
-            <input className={styles.videoURL} type="url" placeholder="Enter video url" value={videoURL} onChange={(e) => { setVideoURL(e.target.value) }} />
-            <p>OR</p>
-            {/*Drag and Drop or click and select input for video file*/}
-            <>
-
-
-
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    accept="video/*"
-                    onChange={handleFileChange}
-                />
+        <div className={styles.container}>
+            <div className={styles.centerContainer}>
+                <h3 className={styles.title}>Theta Edge Video Uploader</h3>
+                <p className={styles.subtitle}>Upload or Provide a video URL for transcoding</p>
                 <div
-                    id="dragDropBox"
-                    className={styles.dragDropBox}
+                    className={cx(styles.fileDropArea, { [styles.dragOver]: false })}
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
                     onClick={() => fileInputRef.current?.click()}
                 >
-                    <p>Drag your video here...</p>
+                    {videoFile ? (
+                        <div>
+                            <p>{videoFile.name}</p>
+                        </div>
+                    ) : (
+                        <p>Drag & Drop Video File here or click to upload</p>
+                    )}
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
+                    />
                 </div>
-                <p>{videoFile ? videoFile?.name : null}</p>
-            </>
-            {/*Select Resolutions and Worker*/}
-            <div className={styles.selectContainer}>
-                <div className={styles.selectWrapper}>
-                    <label className={styles.selectLabel}>Select Resolutions:</label>
-                    <Listbox>
+                <div className={styles.inputGroup}>
+                    <label>Video URL</label>
+                    <input
+                        type="text"
+                        value={videoURL}
+                        onChange={(e) => setVideoURL(e.target.value)}
+                    />
+                </div>
+                <div className={styles.inputGroup}>
+                    <label>Video Name</label>
+                    <input
+                        type="text"
+                        value={videoName}
+                        onChange={(e) => setVideoName(e.target.value)}
+                    />
+                </div>
+                <div className={styles.inputGroup}>
+                    <label>Video Description</label>
+                    <textarea
+                        value={videoDescription}
+                        onChange={(e) => setVideoDescription(e.target.value)}
+                    />
+                </div>
+                <div className={styles.inputGroup}>
+                    <label>Resolutions</label>
+                    <div className={styles.resolutions}>
+                        {resolutions.map((res) => (
+                            <button
+                                key={res}
+                                className={cx(styles.resolution, {
+                                    [styles.selected]: selectedResolutions.includes(res),
+                                })}
+                                onClick={() => toggleResolution(res)}
+                            >
+                                {res}p
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                <div className={styles.inputGroup}>
+                    <label>Edge Node Worker</label>
+                    <Listbox value={selectedWorker} onChange={setSelectedWorker}>
                         {({ open }) => (
                             <>
-                                <div className={styles.multiSelectDisplay}>
-                                    <Listbox.Button className={styles.listBox}>
-                                        {selectedResolutions.length > 0 ? selectedResolutions.map(resolution => (
-                                            <span key={resolution} className={styles.selectedItem}>
-                                                <div className={styles.resolutionText}>{resolution}P</div>
-                                                <button className={styles.buttonX} onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    removeResolution(resolution)
-                                                }
-                                                }>&times;</button>
-                                            </span>
-                                        )) : 'Select resolutions'}
-                                    </Listbox.Button>
-                                </div>
-                                <Transition show={open}>
-                                    <Listbox.Options className={styles.optionsBox}> {/* <-- Adjust the class here */}
-                                        {resolutions.filter(res => !selectedResolutions.includes(res)).map((resolution) => (
-                                            <Listbox.Option className={styles.options} key={resolution} value={resolution}>
-                                                {() => (
-                                                    <div className={styles.option} onClick={() => toggleResolution(resolution)}>
-                                                        <span>{resolution}P</span>
-                                                    </div>
-                                                )}
-                                            </Listbox.Option>
-                                        ))}
-                                    </Listbox.Options>
-                                </Transition>
-                            </>
-                        )}
-                    </Listbox>
-                </div>
-
-                <div className={styles.selectWrapper}>
-                    <label className={styles.selectLabel}>Select a worker:</label>
-                    <Listbox as="div" value={selectedWorker} onChange={setSelectedWorker}>
-                        {({ open }) => (
-                            <>
-                                <Listbox.Button className={styles.listBoxWorker}>{selectedWorker}</Listbox.Button>
-                                <Transition show={open}>
-                                    <Listbox.Options className={styles.optionsBox}>
+                                <Listbox.Button className={styles.listboxButton}>
+                                    {selectedWorker}
+                                </Listbox.Button>
+                                <Transition
+                                    show={open}
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                >
+                                    <Listbox.Options static className={styles.listboxOptions}>
                                         {workers.map((worker) => (
-                                            <Listbox.Option className={styles.options} key={worker} value={worker}>
+                                            <Listbox.Option key={worker} value={worker}>
                                                 {({ selected }) => (
-                                                    <div className={cx(styles.option, selected ? styles.selectedOption : null)}>
-                                                        <span>{worker}</span>
+                                                    <div
+                                                        className={cx(styles.listboxOption, {
+                                                            [styles.selected]: selected,
+                                                        })}
+                                                    >
+                                                        {worker}
                                                     </div>
                                                 )}
                                             </Listbox.Option>
@@ -377,210 +352,81 @@ export default function Video() {
                         )}
                     </Listbox>
                 </div>
-            </div>
-            {/*Input Video name stored in the metadata*/}
-            <h4>Stored in metadata</h4>
-            <input className={styles.videoURL} type="text" placeholder="Enter video name (optional)" value={videoName} onChange={(e) => { setVideoName(e.target.value) }} />
-            <input className={styles.videoURL} type="text" placeholder="Enter video description (optional)" value={videoDescription} onChange={(e) => { setVideoDescription(e.target.value) }} />
-            {/*Enable DRM via NFTs*/}
-            <h4>Enable NFT based DRM with NFT collection address (optional)</h4>
-            {collections.map((collection, index) => (
-                <div key={index} className={styles.collectionRow}>
-                    <div className={styles.collectionInputs}>
-                        <div className={styles.inputGroup}>
-                            <label>Enter Collection#{index + 1} Address:</label>
+                <div className={styles.inputGroup}>
+                    <label>DRM Collections</label>
+                    {collections.map((collection, index) => (
+                        <div key={index} className={styles.collection}>
                             <input
-                                className={styles.collectionAddress}
                                 type="text"
-                                placeholder={'Collection Address'}
+                                placeholder="Collection Address"
                                 value={collection.address}
-                                onChange={(e) => handleAddressChange(index, e.target.value)}
+                                onChange={(e) =>
+                                    handleAddressChange(index, e.target.value)
+                                }
                             />
+                            <select
+                                value={collection.network}
+                                onChange={(e) => handleNetworkChange(index, e.target.value)}
+                            >
+                                {networks.map((network) => (
+                                    <option key={network.value} value={network.name}>
+                                        {network.name}
+                                    </option>
+                                ))}
+                            </select>
+                            {index !== 0 && (
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveCollection(index)}
+                                >
+                                    Remove
+                                </button>
+                            )}
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label>Select Collection#{index + 1} Network:</label>
-                            <Listbox as="div" value={collection.network} onChange={(network) => handleNetworkChange(index, network)}>
-                                {({ open }) => (
-                                    <>
-                                        <Listbox.Button className={styles.listBoxNetwork}>{collection.network}</Listbox.Button>
-                                        <Transition show={open}>
-                                            <Listbox.Options className={styles.optionsBoxNetwork}>
-                                                {networks.map((network) => (
-                                                    <Listbox.Option className={styles.options} key={network.value} value={network.name}>
-                                                        {({ selected }) => (
-                                                            <div className={cx(styles.option, selected ? styles.selectedOption : null)}>
-                                                                <span>{network.name}</span>
-                                                            </div>
-                                                        )}
-                                                    </Listbox.Option>
-                                                ))}
-                                            </Listbox.Options>
-                                        </Transition>
-                                    </>
-                                )}
-                            </Listbox>
-                        </div>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "end", alignItems: "center" }}>
-                        <button className={styles.buttonRemove} onClick={() => handleRemoveCollection(index)}>Remove</button>
-                    </div>
-                </div>
-            ))}
-            <button className={styles.basicButton} onClick={handleAddCollection}>Add another NFT collection</button>
-            <p style={{ width: '600px', color: 'var(--primary-color)', textAlign: 'center' }}>If a collection address is added, users MUST have at least one NFT from the specified collection in order to view the video.</p>
-            {/*Save button, loading animation and Error messages*/}
-            {
-                isUploading ? (
-                    <>
-                        <div className={styles.spinner}></div>
-                        <p style={{ color: "var(--secondary-color-green)" }}>Video uploading, do not close this browser tab!</p>
-                    </>
-                ) : (
-                    <button className={styles.basicButton} onClick={handleSaveVideo}>
-                        Save
+                    ))}
+                    <button type="button" onClick={handleAddCollection}>
+                        Add Collection
                     </button>
-                )
-            }
-            <p style={{ color: "red" }}>{errorMessage}</p>
+                </div>
+                <div className={styles.errorMessage}>{errorMessage}</div>
+                <button className={styles.saveButton} onClick={handleSaveVideo}>
+                    {isUploading ? 'Uploading...' : 'Save Video'}
+                </button>
+            </div>
         </div>
     );
 }
 
-// The Following is shown when no API Keys are provided.
-type ApiKeysProps = {
-    setApiKeys: (args: { key: string, secret: string }) => void;
-};
+const ApiKeys = ({ setApiKeys }) => {
+    const [apiKey, setApiKey] = useState('');
+    const [apiSecret, setApiSecret] = useState('');
 
-function ApiKeys({ setApiKeys }: ApiKeysProps): JSX.Element {
-    const [keysErrorMessage, setKeysErrorMessage] = useState<string>('');
-    const [apiKey, setApiKey] = useState<string>('');
-    const [apiSecret, setApiSecret] = useState<string>('');
-
-    const handleApiKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => setApiKey(e.target.value);
-    const handleApiSecretChange = (e: React.ChangeEvent<HTMLInputElement>) => setApiSecret(e.target.value);
-
-    const handleSaveKeys = () => {
-        if (apiKey.trim() && apiSecret.trim()) {
-            axios.get(`https://api.thetavideoapi.com/video/${apiKey}/list`, {
-                headers: {
-                    'x-tva-sa-id': apiKey,
-                    'x-tva-sa-secret': apiSecret,
-                }
-            }).then(() => {
-                setApiKeys({ key: apiKey, secret: apiSecret });
-            }).catch((err) => {
-                console.error("Error:", err);
-                setKeysErrorMessage("Something went wrong, please check your Key and Secret!");
-            });
-        } else {
-            setKeysErrorMessage("You need to set the Key and Secret!");
-        }
+    const handleSaveApiKeys = () => {
+        setApiKeys({ key: apiKey, secret: apiSecret });
     };
 
     return (
-        <div className={styles.alignment}>
-            <h1 className={styles.title}>Enter API Keys</h1>
-            <div className={styles.inputWrapper}>
-                <label>API Key:</label>
+        <div className={styles.centerContainer}>
+            <h3 className={styles.title}>Enter API Keys</h3>
+            <div className={styles.inputGroup}>
+                <label>API Key</label>
                 <input
-                    className={styles.apiKeys}
                     type="text"
-                    placeholder=""
-                    id="apiKeyValue"
                     value={apiKey}
-                    onChange={handleApiKeyChange}
+                    onChange={(e) => setApiKey(e.target.value)}
                 />
             </div>
-            <div className={styles.secretWrapper}>
-                <label>API Secret:</label>
+            <div className={styles.inputGroup}>
+                <label>API Secret</label>
                 <input
-                    className={styles.apiKeys}
-                    type="text"
-                    placeholder=""
-                    id="apiSecretValue"
+                    type="password"
                     value={apiSecret}
-                    onChange={handleApiSecretChange}
+                    onChange={(e) => setApiSecret(e.target.value)}
                 />
             </div>
-            <button className={styles.basicButton} onClick={handleSaveKeys}>Save Keys</button>
-            <p id="keysError" className={styles.errorText}>{keysErrorMessage}</p>
-        </div>
-    );
-}
-
-
-
-// The Following is shown when Transcoding is started and shows the progress as well as the result at the end.
-interface TranscodingProps {
-    apiKey: string,
-    apiSecret: string,
-    id: string;
-    name: string,
-    handleBackToNewVideo: (newValue: string) => void;
-}
-
-function Transcoding({ apiKey, apiSecret, id, name, handleBackToNewVideo, }: TranscodingProps): JSX.Element {
-    const [progress, setProgress] = useState<number | null>(null);
-    const [playbackUri, setPlaybackUri] = useState<string | null>(null);
-    const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
-
-    const fetchVideoProgress = async () => {
-        const options = {
-            method: 'GET',
-            url: 'https://api.thetavideoapi.com/video/' + id,
-            headers: {
-                'x-tva-sa-id': apiKey,
-                'x-tva-sa-secret': apiSecret,
-            },
-        };
-
-        try {
-            const response = await axios(options);
-            const videoData = response.data.body.videos[0];
-            if (videoData) {
-                setProgress(videoData.progress);
-
-                if (videoData.progress === 100 && videoData.playback_uri) {
-                    setPlaybackUri(videoData.playback_uri);
-                    if (intervalId) clearInterval(intervalId);
-                }
-            }
-        } catch (error) {
-            console.error('Error fetching video progress:', error);
-        }
-    };
-
-    React.useEffect(() => {
-        const interval = setInterval(() => {
-            fetchVideoProgress();
-        }, 2000);
-
-        setIntervalId(interval);
-
-        return () => {
-            if (intervalId) clearInterval(intervalId);
-        };
-    }, []);
-
-    return (
-        <div className={styles.alignment}>
-            <h2 className={styles.transcodingTitle}>{name !== '' && name ? name : id}</h2>
-            <p className={styles.transcodingIdText}>{id}</p>
-            {playbackUri ? (
-                <>
-                    <span>Watch Here:</span>
-                    <a className={styles.playbackLink} href={playbackUri} target="_blank" rel="noopener noreferrer">
-                        {playbackUri}
-                    </a>
-                    <iframe src={`https://player.thetavideoapi.com/video/${id}`} className={styles.iframe} allowFullScreen />
-                </>
-            ) : (
-                <p className={styles.encodingText}>Encoding video: {progress ? `${progress.toFixed(2)}%` : 'Starting...'}</p>
-            )}
-
-            <button className={styles.buttonRemove} onClick={() => handleBackToNewVideo('')}>
-                New Video
+            <button className={styles.saveButton} onClick={handleSaveApiKeys}>
+                Save
             </button>
         </div>
     );
-}
+};
