@@ -1,4 +1,5 @@
 export interface Posts {
+  vid_des: string;
   url: string;
   id: string;
   title: string;
