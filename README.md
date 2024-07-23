@@ -11,6 +11,9 @@
 - Get 2D or image feel of video object by theta cloudEdge
 - Get tags to related videos
 - Search bar and lots more
+- Theta blockchain inspection block storage
+- Web app
+- P2P data storage support
 
 [Try it](https://light-pro-i2c8.vercel.app)
 
