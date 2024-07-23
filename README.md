@@ -7,10 +7,10 @@
 - Upload video as Non-Fungible tokens (NFTs)
 - Use chatbot for assistance in video
 - Simple User interface
-- Get 3D feel of video object
-- Get 2D or image feel of video object
+- Get 3D feel of video object by theta cloudEdge
+- Get 2D or image feel of video object by theta cloudEdge
 - Get tags to related videos
-- Search bar
+- Search bar and lots more
 
 [Try it](https://light-pro-i2c8.vercel.app)
 
