@@ -1,4 +1,18 @@
-OpenBlog is open source template is design and built with nextjs and tailwind CSS. 
+# Light Pro
+
+## Features
+- Upload video to theta network video services for streaming and upload
+- LiveStream support on theta video streaming services
+- Login with thetapass to upload video support
+- Upload video as Non-Fungible tokens (NFTs)
+- Use chatbot for assistance in video
+- Simple User interface
+- Get 3D feel of video object
+- Get 2D or image feel of video object
+- Get tags to related videos
+- Search bar
+
+[Try it](https://light-pro-i2c8.vercel.app)
 
 ## Getting Started
 
@@ -13,7 +27,6 @@ pnpm install
 npm install
 # or
 yarn install
-```
 
 Then, run the development server:
 
@@ -82,3 +95,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ├── tsconfig.json
 └── type.d.ts
 ```
+
+
+Special thanks to [OpenBlog repo](https://light-pro-i2c8.vercel.app), theta network edgecloud tools, Google Gemini AI and other powerful tools.
+
