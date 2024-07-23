@@ -100,5 +100,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ```
 
 
-Special thanks to [OpenBlog repo](https://light-pro-i2c8.vercel.app), theta network edgecloud tools, Google Gemini AI and other powerful tools.
-[Support development of lightpro](https://paystack.com/pay/0nbbu8hnpk)
+- Special thanks to [OpenBlog repo](https://light-pro-i2c8.vercel.app), theta network edgecloud tools, Google Gemini AI and other powerful tools.
+- [Support development of lightpro ❤️](https://paystack.com/pay/0nbbu8hnpk)
