@@ -1,19 +1,20 @@
 # Light Pro
 
 ## Features
-- Upload video to theta network video services for streaming and upload
-- LiveStream support on theta video streaming services
-- Login with thetapass to upload video support
-- Upload video as Non-Fungible tokens (NFTs)
-- Use chatbot for assistance in video
-- Simple User interface
-- Get 3D feel of video object by theta cloudEdge
-- Get 2D or image feel of video object by theta cloudEdge
-- Get tags to related videos
-- Search bar and lots more
-- Theta blockchain inspection block storage
-- Web app
-- P2P data storage support
+- Upload video to theta network video services for streaming and upload 📹
+- LiveStream support on theta video streaming services 🎥
+- Login with thetapass to upload video support 🔐
+- Upload video as Non-Fungible tokens (NFTs) 💎
+- Use chatbot for assistance in video 🤖
+- Simple User interface 💻
+- Get 3D feel of video object by theta cloudEdge 🌐
+- Get 2D or image feel of video object by theta cloudEdge 🎨
+- Get tags to related videos 🔖
+- Search bar and lots more 🔍
+- Theta blockchain inspection block storage 🧱
+- Web app 🌐
+- P2P data storage support 📦
+
 
 [Try it](https://light-pro-i2c8.vercel.app)
 
