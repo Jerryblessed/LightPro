@@ -242,126 +242,196 @@ export default function Video() {
     }
 
     return (
-        <div className={styles.container}>
-            <form>
-                <label htmlFor="title">Video Title</label>
+        <div className={styles.alignment}>
+            <h1 style={{ textDecoration: 'underline', fontSize: '30px' }}>New Upload 📹</h1>
+
+
+            <div
+                id="dragDropBox"
+                className={styles.dragDropBox}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                onClick={() => window.open('https://www.google.com', '_blank')}
+            >
+                <p>Generate videos here...</p>
+            </div>
+            <p>OR</p>
+            <div
+                id="dragDropBox"
+                className={styles.dragDropBox}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                onClick={() => window.open('https://www.google.com', '_blank')}
+            >
+                <p>Create images...</p>
+            </div>
+
+            <p>OR</p>
+
+            <div
+                id="dragDropBox"
+                className={styles.dragDropBox}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                onClick={() => window.open('https://www.google.com', '_blank')}
+            >
+                <p>Create 3D contents...</p>
+            </div>
+
+
+            <p>OR</p>
+            <input className={styles.videoURL} type="url" placeholder="Enter video url" value={videoURL} onChange={(e) => { setVideoURL(e.target.value) }} />
+            <p>OR</p>
+            {/*Drag and Drop or click and select input for video file*/}
+            <>
+
+
+
                 <input
-                    type="text"
-                    name="title"
-                    placeholder="Your video title"
-                    value={videoName}
-                    onChange={e => setVideoName(e.target.value)}
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    accept="video/*"
+                    onChange={handleFileChange}
                 />
-
-                <label htmlFor="description">Video Description</label>
-                <textarea
-                    name="description"
-                    rows={4}
-                    placeholder="Your video description"
-                    value={videoDescription}
-                    onChange={e => setVideoDescription(e.target.value)}
-                />
-
-                <label htmlFor="url">Video URL</label>
-                <input
-                    type="url"
-                    name="url"
-                    placeholder="https://example.com/video"
-                    value={videoURL}
-                    onChange={e => setVideoURL(e.target.value)}
-                />
-
-                <label>Resolutions</label>
-                <div>
-                    {resolutions.map(resolution => (
-                        <div key={resolution}>
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    checked={selectedResolutions.includes(resolution)}
-                                    onChange={() => toggleResolution(resolution)}
-                                />
-                                {resolution}p
-                            </label>
-                        </div>
-                    ))}
-                </div>
-
-                <label>Worker</label>
-                <div>
-                    <Listbox value={selectedWorker} onChange={setSelectedWorker}>
-                        <div className={cx(styles.listbox)}>
-                            <Listbox.Button>{selectedWorker}</Listbox.Button>
-                            <Transition
-                                as={React.Fragment}
-                                leave="transition ease-in duration-100"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                            >
-                                <Listbox.Options className={cx(styles.options)}>
-                                    {workers.map((worker) => (
-                                        <Listbox.Option
-                                            key={worker}
-                                            className={({ active }) =>
-                                                cx(styles.option, { [styles.activeOption]: active })
-                                            }
-                                            value={worker}
-                                        >
-                                            {worker}
-                                        </Listbox.Option>
-                                    ))}
-                                </Listbox.Options>
-                            </Transition>
-                        </div>
-                    </Listbox>
-                </div>
-
-                <label>Collections</label>
-                {collections.map((collection, index) => (
-                    <div key={index} className={styles.collection}>
-                        <input
-                            type="text"
-                            placeholder="Collection Address"
-                            value={collection.address}
-                            onChange={e => handleAddressChange(index, e.target.value)}
-                        />
-                        <select
-                            value={collection.network}
-                            onChange={e => handleNetworkChange(index, e.target.value)}
-                        >
-                            {networks.map(network => (
-                                <option key={network.value} value={network.name}>
-                                    {network.name}
-                                </option>
-                            ))}
-                        </select>
-                        <button type="button" onClick={() => handleRemoveCollection(index)}>Remove</button>
-                    </div>
-                ))}
-                <button type="button" onClick={handleAddCollection}>Add Collection</button>
-
                 <div
-                    className={styles.dropArea}
+                    id="dragDropBox"
+                    className={styles.dragDropBox}
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
                     onClick={() => fileInputRef.current?.click()}
                 >
-                    {videoFile ? videoFile.name : 'Drag and drop a video file or click to select'}
+                    <p>Drag your video here...</p>
                 </div>
-                <input
-                    type="file"
-                    accept="video/*"
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    onChange={handleFileChange}
-                />
+                <p>{videoFile ? videoFile?.name : null}</p>
+            </>
+            {/*Select Resolutions and Worker*/}
+            <div className={styles.selectContainer}>
+                <div className={styles.selectWrapper}>
+                    <label className={styles.selectLabel}>Select Resolutions:</label>
+                    <Listbox>
+                        {({ open }) => (
+                            <>
+                                <div className={styles.multiSelectDisplay}>
+                                    <Listbox.Button className={styles.listBox}>
+                                        {selectedResolutions.length > 0 ? selectedResolutions.map(resolution => (
+                                            <span key={resolution} className={styles.selectedItem}>
+                                                <div className={styles.resolutionText}>{resolution}P</div>
+                                                <button className={styles.buttonX} onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    removeResolution(resolution)
+                                                }
+                                                }>&times;</button>
+                                            </span>
+                                        )) : 'Select resolutions'}
+                                    </Listbox.Button>
+                                </div>
+                                <Transition show={open}>
+                                    <Listbox.Options className={styles.optionsBox}> {/* <-- Adjust the class here */}
+                                        {resolutions.filter(res => !selectedResolutions.includes(res)).map((resolution) => (
+                                            <Listbox.Option className={styles.options} key={resolution} value={resolution}>
+                                                {() => (
+                                                    <div className={styles.option} onClick={() => toggleResolution(resolution)}>
+                                                        <span>{resolution}P</span>
+                                                    </div>
+                                                )}
+                                            </Listbox.Option>
+                                        ))}
+                                    </Listbox.Options>
+                                </Transition>
+                            </>
+                        )}
+                    </Listbox>
+                </div>
 
-                <button type="button" onClick={handleSaveVideo} disabled={isUploading}>
-                    {isUploading ? 'Uploading...' : 'Save Video'}
-                </button>
-
-                {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-            </form>
+                <div className={styles.selectWrapper}>
+                    <label className={styles.selectLabel}>Select a worker:</label>
+                    <Listbox as="div" value={selectedWorker} onChange={setSelectedWorker}>
+                        {({ open }) => (
+                            <>
+                                <Listbox.Button className={styles.listBoxWorker}>{selectedWorker}</Listbox.Button>
+                                <Transition show={open}>
+                                    <Listbox.Options className={styles.optionsBox}>
+                                        {workers.map((worker) => (
+                                            <Listbox.Option className={styles.options} key={worker} value={worker}>
+                                                {({ selected }) => (
+                                                    <div className={cx(styles.option, selected ? styles.selectedOption : null)}>
+                                                        <span>{worker}</span>
+                                                    </div>
+                                                )}
+                                            </Listbox.Option>
+                                        ))}
+                                    </Listbox.Options>
+                                </Transition>
+                            </>
+                        )}
+                    </Listbox>
+                </div>
+            </div>
+            {/*Input Video name stored in the metadata*/}
+            <h4>Stored in metadata</h4>
+            <input className={styles.videoURL} type="text" placeholder="Enter video name (optional)" value={videoName} onChange={(e) => { setVideoName(e.target.value) }} />
+            <input className={styles.videoURL} type="text" placeholder="Enter video description (optional)" value={videoDescription} onChange={(e) => { setVideoDescription(e.target.value) }} />
+            {/*Enable DRM via NFTs*/}
+            <h4>Enable NFT based DRM with NFT collection address (optional)</h4>
+            {collections.map((collection, index) => (
+                <div key={index} className={styles.collectionRow}>
+                    <div className={styles.collectionInputs}>
+                        <div className={styles.inputGroup}>
+                            <label>Enter Collection#{index + 1} Address:</label>
+                            <input
+                                className={styles.collectionAddress}
+                                type="text"
+                                placeholder={'Collection Address'}
+                                value={collection.address}
+                                onChange={(e) => handleAddressChange(index, e.target.value)}
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label>Select Collection#{index + 1} Network:</label>
+                            <Listbox as="div" value={collection.network} onChange={(network) => handleNetworkChange(index, network)}>
+                                {({ open }) => (
+                                    <>
+                                        <Listbox.Button className={styles.listBoxNetwork}>{collection.network}</Listbox.Button>
+                                        <Transition show={open}>
+                                            <Listbox.Options className={styles.optionsBoxNetwork}>
+                                                {networks.map((network) => (
+                                                    <Listbox.Option className={styles.options} key={network.value} value={network.name}>
+                                                        {({ selected }) => (
+                                                            <div className={cx(styles.option, selected ? styles.selectedOption : null)}>
+                                                                <span>{network.name}</span>
+                                                            </div>
+                                                        )}
+                                                    </Listbox.Option>
+                                                ))}
+                                            </Listbox.Options>
+                                        </Transition>
+                                    </>
+                                )}
+                            </Listbox>
+                        </div>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "end", alignItems: "center" }}>
+                        <button className={styles.buttonRemove} onClick={() => handleRemoveCollection(index)}>Remove</button>
+                    </div>
+                </div>
+            ))}
+            <button className={styles.basicButton} onClick={handleAddCollection}>Add another NFT collection</button>
+            <p style={{ width: '600px', color: 'var(--primary-color)', textAlign: 'center' }}>If a collection address is added, users MUST have at least one NFT from the specified collection in order to view the video.</p>
+            {/*Save button, loading animation and Error messages*/}
+            {
+                isUploading ? (
+                    <>
+                        <div className={styles.spinner}></div>
+                        <p style={{ color: "var(--secondary-color-green)" }}>Video uploading, do not close this browser tab!</p>
+                    </>
+                ) : (
+                    <button className={styles.basicButton} onClick={handleSaveVideo}>
+                        Save
+                    </button>
+                )
+            }
+            <p style={{ color: "red" }}>{errorMessage}</p>
         </div>
     );
 }
