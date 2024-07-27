@@ -251,7 +251,7 @@ export default function Video() {
                 className={styles.dragDropBox}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
-                onClick={() => window.open('https://www.google.com', '_blank')}
+                onClick={() => window.open('https://www.thetaedgecloud.com/ai-showcase', '_blank')}
             >
                 <p>Generate videos here...</p>
             </div>
@@ -261,7 +261,7 @@ export default function Video() {
                 className={styles.dragDropBox}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
-                onClick={() => window.open('https://www.google.com', '_blank')}
+                onClick={() => window.open('https://www.thetaedgecloud.com/ai-showcase', '_blank')}
             >
                 <p>Create images...</p>
             </div>
@@ -273,7 +273,7 @@ export default function Video() {
                 className={styles.dragDropBox}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
-                onClick={() => window.open('https://www.google.com', '_blank')}
+                onClick={() => window.open('https://www.thetaedgecloud.com/ai-showcase', '_blank')}
             >
                 <p>Create 3D contents...</p>
             </div>
