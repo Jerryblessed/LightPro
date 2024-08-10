@@ -36,10 +36,10 @@ const Header = () => {
   return (
     <header className="not-prose px-2 sm:px-4 py-2.5 w-full">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-{/*         <Link href="/" className="mx-auto block font-semibold dark:text-white">
-          <h1 style={{ fontFamily: 'cursive', fontSize: '30px' }}>LightPro 💡</h1>
+        <Link href="/" className="mx-auto block font-semibold dark:text-white">
+          <h1 style={{ fontFamily: 'cursive', fontSize: '30px' }}>💡</h1>
         </Link>
- */}
+
         <ul className="mx-auto flex flex-wrap p-4 md:space-x-8 md:mt-0 md:text-sm md:font-medium">
           <li className="block py-2 pl-3 pr-4 text-gray-700 hover:text-blue-700 dark:hover:text-blue-700 rounded md:p-0 dark:text-white">
             <div className="relative">
@@ -64,27 +64,7 @@ const Header = () => {
               {theme === 'dark' ? <FaSun /> : <FaRegMoon />}
             </button>
           </li>
-{/* 
-          <li>
-            {/* Trigger popup functionality */}
-            <button
-              className="block py-2 pl-3 pr-4 rounded md:p-0"
-              onClick={uploadvid}
-            >
-              <FaUpload />
-              <h1>Upload</h1>
-            </button>
-          </li> */}
 
-{/*           <li>
-            <button
-              className="block py-2 pl-3 pr-4 rounded md:p-0"
-              onClick={live}
-            >
-              <FaStream />
-              <h1>Live</h1>
-            </button>
-          </li> */}
         </ul>
       </div>
 
