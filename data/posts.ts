@@ -12,27 +12,13 @@ export const posts: Array<{
 }> = [
 
     {
-      id: "1X7",
-      title: "Dinosaur",
-      description:
-        "Dolor adipisicing adipisicing Lorem et irure veniam nisi anim excepteur mollit occaecat eu.",
-      date: "2022-11-15T08:14:33.826Z",
-      tags: ["what_am_I"],
-      category: ["what_am_I"],
-      image: "/images/FastPrompt.png",
-      author: "Jeanne Ballard",
-      url: "video_8a1c08sry3s8igeavfa372i3va",
-      vid_des: "https://www.thetaedgecloud.com/ai-showcase/sketch-to-3d"
-    },
-
-    {
       id: "1X2",
-      title: "Dinosaur",
+      title: "Introduction to Dinosaurs: An Overview",
       description:
         "Mollit aute nostrud voluptate amet irure consectetur commodo cupidatat elit. Non ut dolor nulla dolor duis. Anim eiusmod fugiat eiusmod ut nulla nulla labore.",
-      date: "2022-11-what_am_I:18:10.494Z",
-      tags: ["what_am_I"],
-      category: ["what_am_I"],
+      date: "2022-11-09T18:10:10.494Z",
+      tags: ["Paleontology"],
+      category: ["Science"],
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_meh9a4h6vf1w5rk0j5fgax6qzv",
@@ -41,11 +27,11 @@ export const posts: Array<{
 
     {
       id: "1X8",
-      title: "Stair Case",
+      title: "Building a Staircase: Step-by-Step Guide",
       description: "Eiusmod quis esse aliqua sit nostrud aliquip sunt minim irure laboris reprehenderit irure ex",
       date: "2022-11-10T07:47:21.553Z",
-      tags: ["Programming", "Python", "gesture"],
-      category: ["what_am_I"],
+      tags: ["Construction", "DIY"],
+      category: ["Home Improvement"],
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_5eaqia5t298u6y6t8ka2yr2f3p",
@@ -54,11 +40,11 @@ export const posts: Array<{
 
     {
       id: "1X9",
-      title: "Joke",
+      title: "Secrets to Becoming a Successful Comedian",
       description: "Eiusmod quis esse aliqua sit nostrud aliquip sunt minim irure laboris reprehenderit irure ex",
       date: "2022-11-10T07:47:21.553Z",
-      tags: ["Programming", "Python", "gesture"],
-      category: ["what_am_I"],
+      tags: ["Comedy", "Performance"],
+      category: ["Arts"],
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_bxkwbw550ab8rkhtr84rpwxvdy",
@@ -67,11 +53,11 @@ export const posts: Array<{
 
     {
       id: "1X10",
-      title: "Towel",
+      title: "Creative Towel Crafting Techniques",
       description: "Eiusmod quis esse aliqua sit nostrud aliquip sunt minim irure laboris reprehenderit irure ex",
       date: "2022-11-10T07:47:21.553Z",
-      tags: ["Programming", "Python", "gesture"],
-      category: ["what_am_I"],
+      tags: ["Crafting", "DIY"],
+      category: ["Arts and Crafts"],
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_6iq0h7niu0as9h4iiyqhi1aigc",
@@ -80,11 +66,11 @@ export const posts: Array<{
 
     {
       id: "1X11",
-      title: "Sponge",
+      title: "Starting a Sponge Making Business",
       description: "Eiusmod quis esse aliqua sit nostrud aliquip sunt minim irure laboris reprehenderit irure ex",
       date: "2022-11-10T07:47:21.553Z",
-      tags: ["Programming", "Python", "gesture"],
-      category: ["what_am_I"],
+      tags: ["Business", "Craft"],
+      category: ["Entrepreneurship"],
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_mf9en4ckdisi1jfm733ifr5ba4",
@@ -93,11 +79,11 @@ export const posts: Array<{
 
     {
       id: "1X12",
-      title: "Camera",
+      title: "Exploring Camera Technologies",
       description: "Eiusmod quis esse aliqua sit nostrud aliquip sunt minim irure laboris reprehenderit irure ex",
       date: "2022-11-10T07:47:21.553Z",
-      tags: ["Programming", "Python", "gesture"],
-      category: ["describe"],
+      tags: ["Photography", "Technology"],
+      category: ["Photography"],
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_59qvz9ztmxtjfgtsw5xrdvmku6",
@@ -106,11 +92,11 @@ export const posts: Array<{
 
     {
       id: "1X13",
-      title: "Fruit",
+      title: "The Science of Fruits: An In-Depth Look",
       description: "Eiusmod quis esse aliqua sit nostrud aliquip sunt minim irure laboris reprehenderit irure ex",
       date: "2022-11-10T07:47:21.553Z",
-      tags: ["Programming", "Python", "gesture"],
-      category: ["one__com_word"],
+      tags: ["Botany", "Nutrition"],
+      category: ["Science"],
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_t89pu0ifp5syrfu3bf6ib37h08",
@@ -119,11 +105,11 @@ export const posts: Array<{
 
     {
       id: "1X14",
-      title: "Light",
+      title: "Understanding Light: Concepts and Applications",
       description: "Eiusmod quis esse aliqua sit nostrud aliquip sunt minim irure laboris reprehenderit irure ex",
       date: "2022-11-10T07:47:21.553Z",
-      tags: ["Programming", "Python", "gesture"],
-      category: ["one__com_word"],
+      tags: ["Physics", "Light"],
+      category: ["Science"],
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_azare3dxfwhbqr47zgf7dse4cg",
@@ -132,11 +118,11 @@ export const posts: Array<{
 
     {
       id: "1X15",
-      title: "Flower",
+      title: "Botanical Studies: Exploring Flower Varieties",
       description: "Eiusmod quis esse aliqua sit nostrud aliquip sunt minim irure laboris reprehenderit irure ex",
       date: "2022-11-10T07:47:21.553Z",
-      tags: ["Programming", "Python", "gesture"],
-      category: ["one_word"],
+      tags: ["Botany", "Flowers"],
+      category: ["Science"],
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_t8uygrujd8mi0d9xq7stqm02bz",
@@ -145,19 +131,20 @@ export const posts: Array<{
 
     {
       id: "1X16",
-      title: "Nature",
+      title: "Exploring Nature: Ecosystems and Biodiversity",
       description: "Eiusmod quis esse aliqua sit nostrud aliquip sunt minim irure laboris reprehenderit irure ex",
       date: "2022-11-10T07:47:21.553Z",
-      tags: ["Programming", "Python", "gesture"],
-      category: ["one_word"],
+      tags: ["Ecology", "Nature"],
+      category: ["Science"],
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_cdd2sb460w66dwxsge28zdzjhg",
       vid_des: "https://www.thetaedgecloud.com/ai-showcase/sketch-to-3d"
     },
+
     {
       id: "1X2",
-      title: "5 Reasons Why You Shouldn't Learn Photography On Your Own",
+      title: "Why Self-Learning Photography Might Not Be Enough",
       description:
         "Mollit aute nostrud voluptate amet irure consectetur commodo cupidatat elit. Non ut dolor nulla dolor duis. Anim eiusmod fugiat eiusmod ut nulla nulla labore.",
       date: "2022-11-09T08:18:10.494Z",
@@ -170,7 +157,7 @@ export const posts: Array<{
     },
     {
       id: "1X3",
-      title: "7 Useful Tips From Python Experts In Programming",
+      title: "Expert Insights: 7 Essential Python Programming Tips",
       description:
         "Eiusmod quis esse aliqua sit nostrud aliquip sunt minim irure laboris reprehenderit irure ex",
       date: "2022-11-10T07:47:21.553Z",
@@ -179,15 +166,15 @@ export const posts: Array<{
       image: "/images/software-developer.jpg",
       author: "Jeanne Ballard",
       url: "video_pt8fnw6pdg6rtht48jpetqc06f",
-      vid_des:"Hi how are you, Did you know Jesus Loves Yo"
+      vid_des:"Hi how are you, Did you know Jesus Loves You"
     },
     {
       id: "1X4",
-      title: "7 Ways To Use Computer Science To Your Advantage",
+      title: "Leveraging Computer Science for Career Growth",
       description:
         "Incididunt magna do magna cupidatat ullamco laboris amet. Tempor aute ipsum culpa esse ipsum veniam excepteur duis mollit irure cillum.",
       date: "2022-11-11T08:29:39.860Z",
-      tags: ["Advantage", "Computer Science", "Tech"],
+      tags: ["Career", "Computer Science", "Tech"],
       category: ["Computer Science"],
       image: "/images/computer.jpg",
       author: "Emilio Tate",
@@ -196,11 +183,11 @@ export const posts: Array<{
     },
     {
       id: "1X5",
-      title: "10 Things You Most Likely Didn't Know About Health",
+      title: "Understanding Health: 10 Key Insights",
       description:
-        "Culpa laboris aliquip ea consectetur mollit ea ipsum sint qui culpa laboris dolor adipisicing proident. Et officia consequat do nulla tempor cupidatat  elit.",
+        "Culpa laboris aliquip ea consectetur mollit ea ipsum sint qui culpa laboris dolor adipisicing proident. Et officia consequat do nulla tempor cupidatat elit.",
       date: "2022-11-12T08:05:53.939Z",
-      tags: ["Health", "Likely", "Didn't Know"],
+      tags: ["Health", "Insights"],
       category: ["Health"],
       image: "/images/vegetables.jpg",
       author: "Curtis Lopez",
@@ -209,7 +196,7 @@ export const posts: Array<{
     },
     {
       id: "1X6",
-      title: "15 Common Misconceptions About Health",
+      title: "Dissecting Common Health Misconceptions",
       description:
         "Sunt et ad ipsum consectetur culpa officia enim non magna irure consectetur qui ex.",
       date: "2022-11-13T08:07:38.708Z",
@@ -222,15 +209,15 @@ export const posts: Array<{
     },
     {
       id: "1X7",
-      title: "15 Facts You Never Knew About Photography",
+      title: "Photography: 15 Surprising Facts",
       description:
         "Dolor adipisicing adipisicing Lorem et irure veniam nisi anim excepteur mollit occaecat eu.",
       date: "2022-11-15T08:14:33.826Z",
-      tags: ["15 facts", "Photography", "Jeanne Ballard facts"],
+      tags: ["Photography", "Facts"],
       category: ["Photography"],
       image: "/images/photographer.jpg",
       author: "Jeanne Ballard",
       url: "video_jx8p6ewv2uupwgf2qzkgd57yuc",
       vid_des: ""
     },
-  ];
+];
