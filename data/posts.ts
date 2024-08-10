@@ -13,7 +13,19 @@ export const posts: Array<{
   url: string;
   vid_des: string;
 }> = [
-
+{
+  "id": "1X5",
+  "title": "Dinosaur Discoveries and Fossil Hunting",
+  "description": "Dinosaur video",
+  "date": "2022-11-12T08:05:53.939Z",
+  "tags": ["Nature"],
+  "category": ["Nature"],
+  "image": "/images/vegetables.jpg",
+  "author": "Curtis Lopez",
+  "url": "video_9tkbk62mse7jvn37izg3in6i3k/master.m3u8",
+  "vid_des": "https://drive.google.com/file/d/1k5WTk5H6otyHTOSHGgBNxj1AeJsToDMm/view?usp=drive_link"
+}
+,
     {
       id: "1X2",
       title: "Introduction to Dinosaurs: An Overview",
