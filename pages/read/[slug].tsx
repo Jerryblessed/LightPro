@@ -63,7 +63,7 @@ function Read({ post }: { post: string }) {
                   className="mt-4 p-3 bg-orange-600 text-white rounded-full shadow-lg flex items-center justify-center"
                   title="Open Transcript"
                 >
-                  View 2D Image
+                  View Image
                 </button>
               </Link>
 
@@ -72,12 +72,12 @@ function Read({ post }: { post: string }) {
                   className="mt-4 p-3 bg-yellow-600 text-white rounded-full shadow-lg flex items-center justify-center"
                   title="Open Transcript"
                 >
-                  View 3D model
+                  Extra course material
                 </button>
               </Link>
 
               <Link className="text-xl mb-6 no-underline" href={`/tags/${singlePost.tags[0].trim().toLowerCase().replaceAll(' ', '-')}`}>
-                #{singlePost.tags[0]}
+                More on this course ({singlePost.tags[0]})
               </Link>
             </div>
 
