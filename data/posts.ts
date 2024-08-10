@@ -90,7 +90,7 @@ export const posts: Array<{
       image: "/images/FastPrompt.png",
       author: "Jeanne Ballard",
       url: "video_59qvz9ztmxtjfgtsw5xrdvmku6",
-      vid_des: "https://www.thetaedgecloud.com/ai-showcase/sketch-to-3d"
+      vid_des: "https://drive.google.com/file/d/1K0aBqhH2NzA46mic23-Ja9OUsNVDGq3d/view?usp=drive_link"
     },
 
     {
