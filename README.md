@@ -1,18 +1,14 @@
-# Light Pro
+# Light course
 
 ## Features
 - Upload video to theta network video services for streaming and upload 📹
-- LiveStream support on theta video streaming services 🎥
-- Login with thetapass to upload video support 🔐
-- Upload video as Non-Fungible tokens (NFTs) 💎
-- Use chatbot for assistance in video 🤖
+- Use Light chat, Google Gemini chatbot for assistance in video 🤖
 - Simple User interface 💻
-- Get 3D feel of video object by theta cloudEdge 🌐
-- Get 2D or image feel of video object by theta cloudEdge 🎨
+- Get links to material on for each course🌐
+- Get 2D or image feel of video object by google drive 🎨
 - Get tags to related videos 🔖
 - Search bar and lots more 🔍
-- Theta blockchain inspection block storage 🧱
-- Web app 🌐
+- Chrome Web app 🌐
 - P2P data storage support 📦
 
 
@@ -22,7 +18,7 @@
 
 ```bash
 # clone the repository
-git clone https://github.com/frontendweb3/open-blog.git
+git clone https://github.com/Jerryblessed/LightPro.git
 # change the directory
 cd open-blog
 # install packages with pnpm or npm or yarn.
